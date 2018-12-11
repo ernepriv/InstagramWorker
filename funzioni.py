@@ -4,7 +4,9 @@ import os;
 import time;
 import re;
 import ipdb;
+import datetime;
 from selenium.webdriver.common.keys import Keys
+from selenium.common.exceptions 	import NoSuchElementException
 
 link_login_instagram 	= 'https://www.instagram.com/accounts/login/?source=auth_switcher'
 
@@ -62,10 +64,11 @@ def unfollow_all_follows(br, nome_profilo):
 			unfollow_first_follows(br)
 
 		return 0
-	except:
+	except NoSuchElementException:
+	# quando finisco i follower nella schermata
 		return 0
 
-def unfollow_first_follows(br)
+def unfollow_first_follows(br):
 	# i must be in main page of profile
 
 	button_show_followers = br.find_element_by_xpath('//*[@id="react-root"]/section/main/div/header/section/ul/li[3]/a')
@@ -75,7 +78,7 @@ def unfollow_first_follows(br)
 	time.sleep(3)
 
 	follows_array = br.find_elements_by_xpath('/html/body/div[3]/div/div/div[2]/ul/div/li')
-	print str(len(followers_array)) + " to unfollow"
+	print str(len(follows_array)) + " to unfollow"
 
 	for follow in follows_array:
 		time.sleep(7)
@@ -91,11 +94,13 @@ def unfollow_first_follows(br)
 				if not check_if_was_unfollowed(follow):
 					unfollow_follow(follow)
 
-def zero_follows(br)
+def zero_follows(br):
 	follows_c = br.find_element_by_xpath('/html/body/span/section/main/div/header/section/ul/li[3]/a/span').text
-	print 'Now ' + follower_c + ' followers'
-	if follows_c == '0'
+	print 'Now ' + follows_c + ' followers'
+	if follows_c == '0':
 		return True
+	else:
+		return False
 
 def unfollow_follow(follow):
 	# try to unfollow a follow

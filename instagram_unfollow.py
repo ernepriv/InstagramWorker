@@ -1,3 +1,11 @@
+# Si occupa di eseguire unfollow di tutti i follows in un profilo
+# fino a che non arrivano a zero
+# 
+# TODO 
+# - preservare alcuni followers espressi dall'utente
+# - scorrere quando esaurisco i follows nella schermata, senza fare rescue
+# - test spinto per vedere in che circostanze si rompe
+
 import sys;
 import pprint;
 import os;
@@ -5,7 +13,6 @@ import time;
 import re;
 import ipdb;
 import logging;
-import datetime;
 import yaml
 
 from funzioni import genera_browser
@@ -16,7 +23,7 @@ from funzioni import unfollow_all_follows
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
 
-headless   		= True
+headless   		= False
 credentials 	= yaml.load(open('./credentials.yml'))
 nome_profilo 	= credentials['instagram']['nome_profilo'] 
 username		= credentials['instagram']['username']
