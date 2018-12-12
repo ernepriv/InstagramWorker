@@ -6,6 +6,11 @@
 # - scorrere quando esaurisco i follows nella schermata, senza fare rescue
 # - test spinto per vedere in che circostanze si rompe
 
+#
+# problemi noti:
+# WebDriverException: Message: invalid argument: can't kill an exited process
+#	su server no screen non va mai flaggato headless = False
+#
 import sys;
 import pprint;
 import os;

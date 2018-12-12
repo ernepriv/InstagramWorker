@@ -1,3 +1,6 @@
+# requires:
+# sudo apt-get install python-yaml
+# 
 import sys;
 import pprint;
 import os;
@@ -81,18 +84,9 @@ def unfollow_first_follows(br):
 	print str(len(follows_array)) + " to unfollow"
 
 	for follow in follows_array:
+
 		time.sleep(7)
-
 		unfollow_follow(follow)
-
-		out = 0
-		while out == 0:
-			
-			if check_if_was_unfollowed(follow):
-				out = 1
-			else:
-				if not check_if_was_unfollowed(follow):
-					unfollow_follow(follow)
 
 def zero_follows(br):
 	follows_c = br.find_element_by_xpath('/html/body/span/section/main/div/header/section/ul/li[3]/a/span').text
@@ -109,8 +103,18 @@ def unfollow_follow(follow):
 	follow.find_elements_by_css_selector("button")[0].click()
 	print(str(datetime.datetime.now()) + ' unfollow!')
 
-	# ne sono sicuro
-	follow.find_element_by_xpath('/html/body/div[4]/div/div/div/div[3]/button[1]').click()
+	button_present = False
+	while not button_present:
+	# try to click until button spawns
+		try:
+			# ne sono sicuro
+			follow.find_element_by_xpath('/html/body/div[4]/div/div/div/div[3]/button[1]').click()
+			button_present = True
+		except NoSuchElementException:
+			button_present = False
+
+
+
 
 
 def check_if_was_unfollowed(follow):
