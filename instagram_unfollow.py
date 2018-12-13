@@ -52,5 +52,5 @@ while returned == 0:
 	if count > 2:
 		browser.quit()		
 		browser = genera_browser_fire(headless)
-		browser = login_instagram()
+		browser = login_instagram(browser, username, password)
 		count = 0

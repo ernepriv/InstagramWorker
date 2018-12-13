@@ -59,6 +59,10 @@ def unfollow_all_follows(br, nome_profilo):
 		link_profilo = 'https://www.instagram.com/' + nome_profilo
 		while True:
 
+			print(str(datetime.datetime.now()) + ' <----- before sleep')
+			time.sleep(60)
+			print(str(datetime.datetime.now()) + ' <----- after sleep')
+
 			br.get(link_profilo)
 
 			if zero_follows(br):
@@ -68,8 +72,9 @@ def unfollow_all_follows(br, nome_profilo):
 
 		return 0
 	except NoSuchElementException:
-	# quando finisco i follower nella schermata
+		# quando finisco i follower nella schermata
 		return 0
+
 
 def unfollow_first_follows(br):
 	# i must be in main page of profile
@@ -81,40 +86,38 @@ def unfollow_first_follows(br):
 	time.sleep(3)
 
 	follows_array = br.find_elements_by_xpath('/html/body/div[3]/div/div/div[2]/ul/div/li')
-	print str(len(follows_array)) + " to unfollow"
+	print "-------------------------------"
+	print "---------- refresh! -----------"
+	print "-------------------------------"
 
 	for follow in follows_array:
+		follows_c = br.find_element_by_xpath('/html/body/span/section/main/div/header/section/ul/li[3]/a/span').text
+		print 'Now ' + follows_c + ' followers'
 
 		time.sleep(7)
 		unfollow_follow(follow)
+	
+	return True
+
 
 def zero_follows(br):
 	follows_c = br.find_element_by_xpath('/html/body/span/section/main/div/header/section/ul/li[3]/a/span').text
-	print 'Now ' + follows_c + ' followers'
 	if follows_c == '0':
 		return True
 	else:
 		return False
+
 
 def unfollow_follow(follow):
 	# try to unfollow a follow
 	
 	# unfollow this!
 	follow.find_elements_by_css_selector("button")[0].click()
-	print(str(datetime.datetime.now()) + ' unfollow!')
+	time.sleep(1)
+	# i'm sure and confirm it!
+	follow.find_element_by_xpath('/html/body/div[4]/div/div/div/div[3]/button[1]').click()
 
-	button_present = False
-	while not button_present:
-	# try to click until button spawns
-		try:
-			# ne sono sicuro
-			follow.find_element_by_xpath('/html/body/div[4]/div/div/div/div[3]/button[1]').click()
-			button_present = True
-		except NoSuchElementException:
-			button_present = False
-
-
-
+	# print(str(datetime.datetime.now()) + ' unfollow!')
 
 
 def check_if_was_unfollowed(follow):
