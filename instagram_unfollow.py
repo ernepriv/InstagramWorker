@@ -1,15 +1,15 @@
 # Si occupa di eseguire unfollow di tutti i follows in un profilo
 # fino a che non arrivano a zero
-# 
-# TODO 
+#
+# TODO
 # - preservare alcuni followers espressi dall'utente
 # - scorrere quando esaurisco i follows nella schermata, senza fare rescue
 # - test spinto per vedere in che circostanze si rompe
 
 #
-# problemi noti:
-# WebDriverException: Message: invalid argument: can't kill an exited process
-#	su server no screen non va mai flaggato headless = False
+# problemi noti e come risolverli
+#   WebDriverException: Message: invalid argument: can't kill an exited process
+#	  su server no screen non va mai flaggato headless = False
 #
 import sys;
 import pprint;
@@ -30,7 +30,7 @@ from selenium.webdriver.common.keys import Keys
 
 headless   		= False
 credentials 	= yaml.load(open('./credentials.yml'))
-nome_profilo 	= credentials['instagram']['nome_profilo'] 
+nome_profilo 	= credentials['instagram']['nome_profilo']
 username		= credentials['instagram']['username']
 password		= credentials['instagram']['password']
 
@@ -50,7 +50,7 @@ while returned == 0:
 	# if too many times it exit for errors (returned = 0)
 	# i close and reopen browser to fix them
 	if count > 2:
-		browser.quit()		
+		browser.quit()
 		browser = genera_browser_fire(headless)
 		browser = login_instagram(browser, username, password)
 		count = 0
