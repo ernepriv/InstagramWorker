@@ -2,7 +2,6 @@
 # fino a che non arrivano a zero
 #
 # TODO
-# - preservare alcuni followers espressi dall'utente
 # - scorrere quando esaurisco i follows nella schermata, senza fare rescue
 # - test spinto per vedere in che circostanze si rompe
 
@@ -28,11 +27,12 @@ from funzioni import unfollow_all_follows
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
 
-headless   		= False
-credentials 	= yaml.load(open('./credentials.yml'))
-nome_profilo 	= credentials['instagram']['nome_profilo']
-username		= credentials['instagram']['username']
-password		= credentials['instagram']['password']
+headless   			= False
+credentials 		= yaml.load(open('./credentials.yml'))
+nome_profilo 		= credentials['instagram']['nome_profilo']
+username			= credentials['instagram']['username']
+password			= credentials['instagram']['password']
+preserved_follows   = credentials['instagram']['preserved_follows']
 
 # for firefox browser
 browser = genera_browser_fire(headless)
@@ -44,7 +44,7 @@ browser 	= login_instagram(browser, username, password)
 returned 	= 0
 count 		= 0
 while returned == 0:
-	returned = unfollow_all_follows(browser, nome_profilo)
+	returned = unfollow_all_follows(browser, nome_profilo, preserved_follows)
 	count += 1
 
 	# if too many times it exit for errors (returned = 0)

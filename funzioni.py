@@ -55,7 +55,7 @@ def genera_browser_fire(show_browser):
 	browser = webdriver.Firefox(firefox_options=firefox_options)
 	return browser
 
-def unfollow_all_follows(br, nome_profilo):
+def unfollow_all_follows(br, nome_profilo, preserved_follows):
 	try:
 		link_profilo = 'https://www.instagram.com/' + nome_profilo
 		while True:
@@ -69,14 +69,14 @@ def unfollow_all_follows(br, nome_profilo):
 			if zero_follows(br):
 				return 1
 
-			unfollow_first_follows(br)
+			unfollow_first_follows(br, preserved_follows)
 
 	except NoSuchElementException:
 		# quando finisco i follower nella schermata
 		return 0
 
 
-def unfollow_first_follows(br):
+def unfollow_first_follows(br, preserved_follows):
 	# i must be in main page of profile
 
 	button_show_followers = br.find_element_by_xpath('//*[@id="react-root"]/section/main/div/header/section/ul/li[3]/a')
@@ -95,10 +95,20 @@ def unfollow_first_follows(br):
 		print 'Now ' + follows_c + ' followers'
 
 		time.sleep(7)
-		unfollow_follow(follow)
+		if not preserve_follow(follow, preserved_follows):
+			unfollow_follow(follow)
 	
 	return True
 
+def preserve_follow(follow, preserved_follows):
+	if any(follow_name(follow) in s for s in preserved_follows):
+		return True
+	else:
+		return False
+	
+
+def follow_name(follow):
+	return follow.text.split("\n")[0]
 
 def zero_follows(br):
 	follows_c = br.find_element_by_xpath('/html/body/span/section/main/div/header/section/ul/li[3]/a/span').text
