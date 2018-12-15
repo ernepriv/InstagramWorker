@@ -180,7 +180,7 @@ def not_followed_yet(follow_button):
 	# i must have a foto open in browser before do this!
 	return follow_button.get_attribute('class') == 'oW_lN _0mzm- sqdOP yWX7d        '
 
-def follow_and_like_some_hashtag(browser, username, password, profile_name, hash_to_likes):
+def follow_and_like_some_hashtag(browser, username, password, profile_name, hash_to_likes, max_following):
 	# i must be logged before do this!
 	after_follow_wait_time 	= 5
 	after_click_wait_time 	= 5
@@ -189,7 +189,7 @@ def follow_and_like_some_hashtag(browser, username, password, profile_name, hash
 	browser.get(profile_link(profile_name))
 	following_count = how_many_following(browser, profile_name)
 
-	while  following_count < 1000:
+	while  following_count < max_following:
 		browser.get(profile_link(profile_name))
 		for hashtag in hash_to_likes:
 			try:

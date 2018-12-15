@@ -27,7 +27,7 @@ from funzioni import unfollow_all_follows
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
 
-headless   			= False
+headless   			= True
 credentials 		= yaml.load(open('./credentials.yml'))
 nome_profilo 		= credentials['instagram']['nome_profilo']
 username			= credentials['instagram']['username']

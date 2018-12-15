@@ -20,7 +20,8 @@ credentials 	= yaml.load(open('./credentials.yml'))
 nome_profilo 	= credentials['instagram']['nome_profilo']
 username		= credentials['instagram']['username']
 password		= credentials['instagram']['password']
-hashtags 		= ['abarth','thescorpionship','torino','abarthonly','myabarth','abarthitalia','sportcar','abarthgram','abarthlove', 'abarthextreme','sportcar','carporn', 'car', 'husky', 'dog', 'puppy', 'christmas', 'labrador']
+hashtags 		= credentials['instagram']['hashtags']
+max_following 	= int(credentials['instagram']['max_following'])
 
 # for firefox browser
 browser = genera_browser_fire(headless)
@@ -34,7 +35,7 @@ count 		= 0
 while returned == 0:
 	# to randomize hashtag order
 	random.shuffle(hashtags)
-	returned = follow_and_like_some_hashtag(browser, username, password, nome_profilo, hashtags)
+	returned = follow_and_like_some_hashtag(browser, username, password, nome_profilo, hashtags, max_following)
 	count += 1
 
 	# if too many times it exit for errors (returned = 0)
