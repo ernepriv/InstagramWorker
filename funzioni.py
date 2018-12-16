@@ -186,13 +186,14 @@ def follow_and_like_some_hashtag(browser, username, password, profile_name, hash
 	after_click_wait_time 	= 5
 	big_pause = 30
 
-	browser.get(profile_link(profile_name))
-	following_count = how_many_following(browser, profile_name)
-
-	while  following_count < max_following:
-		browser.get(profile_link(profile_name))
+	while True:
 		for hashtag in hash_to_likes:
 			try:
+				# return to profile page to check how many following i have
+				browser.get(profile_link(profile_name))
+				following_count = how_many_following(browser, profile_name)
+				if following_count > max_following:
+					return 1
 
 				browser.get(hashtag_link(hashtag))
 				foto_from_hashtag_page(browser)
@@ -209,6 +210,8 @@ def follow_and_like_some_hashtag(browser, username, password, profile_name, hash
 				time.sleep(big_pause)
 				print 'Analyzing ' + str(len(foto_array)) + ' pictures!'
 
+				browser.execute_script("arguments[0].click();", button_heart_like(browser))
+
 				for e in foto_array:
 
 					browser.execute_script("arguments[0].click();", e)
@@ -223,15 +226,17 @@ def follow_and_like_some_hashtag(browser, username, password, profile_name, hash
 					if not_followed_yet(button_follow(browser)):
 						browser.execute_script("arguments[0].click();", button_follow(browser))
 						print 'ACCOUNT -> followed!'
-						time.sleep(after_follow_wait_time)
+						time.sleep(after_follow_wait_timfollowing_count = how_many_following(browser, profile_name))
 					else:
 						print '-'
 
 					browser.execute_script("arguments[0].click();", button_x_close(browser))
 			except:
 				print 'Recovery some crash :S'
-			# return to profile page to check how many following i have
-			browser.get(profile_link(profile_name))
-			following_count = how_many_following(browser, profile_name)
+				browser.get(profile_link(profile_name))
+				following_count = how_many_following(browser, profile_name)
+				if following_count > max_following:
+					return 1
+
 
 	return 1
