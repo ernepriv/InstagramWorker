@@ -97,7 +97,7 @@ def unfollow_first_follows(br, preserved_follows):
 		time.sleep(7)
 		if not preserve_follow(follow, preserved_follows):
 			unfollow_follow(follow)
-	
+
 	return True
 
 def preserve_follow(follow, preserved_follows):
@@ -105,7 +105,7 @@ def preserve_follow(follow, preserved_follows):
 		return True
 	else:
 		return False
-	
+
 
 def follow_name(follow):
 	return follow.text.split("\n")[0]
@@ -210,8 +210,6 @@ def follow_and_like_some_hashtag(browser, username, password, profile_name, hash
 				time.sleep(big_pause)
 				print 'Analyzing ' + str(len(foto_array)) + ' pictures!'
 
-				browser.execute_script("arguments[0].click();", button_heart_like(browser))
-
 				for e in foto_array:
 
 					browser.execute_script("arguments[0].click();", e)
@@ -226,7 +224,7 @@ def follow_and_like_some_hashtag(browser, username, password, profile_name, hash
 					if not_followed_yet(button_follow(browser)):
 						browser.execute_script("arguments[0].click();", button_follow(browser))
 						print 'ACCOUNT -> followed!'
-						time.sleep(after_follow_wait_timfollowing_count = how_many_following(browser, profile_name))
+						time.sleep(after_follow_wait_time)
 					else:
 						print '-'
 
