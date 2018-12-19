@@ -1,6 +1,10 @@
 # requires:
 # sudo apt-get install python-yaml
 #
+# TODO
+# - evitare login multipli
+#
+#
 import sys;
 import pprint;
 import os;
@@ -29,10 +33,10 @@ def login_instagram(browser, username_instagram, password_instagram):
 	time.sleep(2)
 	# verifica di corretto login
 	print('verifica link')
-	if len(re.findall(INSTAGRAM_LINK + '\w+',browser.current_url)) == 0:
+	if len(re.findall(INSTAGRAM_LINK + '(\w+)',browser.current_url)) == 0:
 		print('verifica ok!')
 	else:
-		if re.findall(INSTAGRAM_LINK + '\w+',browser.current_url)[0] == 'challenge':
+		if re.findall(INSTAGRAM_LINK + '(\w+)',browser.current_url)[0] == 'challenge':
 			print('PROBLEMA DI AUTENTICAZIONE! non so come procedere')
 			raise 'PROBLEMA DI AUTENTICAZIONE! non so come procedere'
 
