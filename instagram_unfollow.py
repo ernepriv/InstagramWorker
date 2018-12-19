@@ -4,6 +4,7 @@
 # TODO
 # - scorrere quando esaurisco i follows nella schermata, senza fare rescue
 # - test spinto per vedere in che circostanze si rompe
+# - test sul 'mi trovo nella pagina corretta o instagram  mi ha bloccato in una pagina di verifica?'
 
 #
 # problemi noti e come risolverli

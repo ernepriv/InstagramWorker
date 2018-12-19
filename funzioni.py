@@ -27,6 +27,15 @@ def login_instagram(browser, username_instagram, password_instagram):
 	button_login.click()
 
 	time.sleep(2)
+	# verifica di corretto login
+	print('verifica link')
+	if len(re.findall(INSTAGRAM_LINK + '\w+',browser.current_url)) == 0:
+		print('verifica ok!')
+	else:
+		if re.findall(INSTAGRAM_LINK + '\w+',browser.current_url)[0] == 'challenge':
+			print('PROBLEMA DI AUTENTICAZIONE! non so come procedere')
+			raise 'PROBLEMA DI AUTENTICAZIONE! non so come procedere'
+
 	return browser
 
 def genera_browser(visible='true'):
