@@ -36,9 +36,8 @@ def login_instagram(browser, username_instagram, password_instagram):
 	if len(re.findall(INSTAGRAM_LINK + '(\w+)',browser.current_url)) == 0:
 		print('verifica ok!')
 	else:
-		if re.findall(INSTAGRAM_LINK + '(\w+)',browser.current_url)[0] == 'challenge':
-			print('PROBLEMA DI AUTENTICAZIONE! non so come procedere, mi trovo in url: ' + browser.current_url)
-			raise 'PROBLEMA DI AUTENTICAZIONE! non so come procedere, mi trovo in url: ' + browser.current_url
+		print('PROBLEMA DI AUTENTICAZIONE! non so come procedere, mi trovo in url: ' + browser.current_url)
+		raise 'PROBLEMA DI AUTENTICAZIONE! non so come procedere, mi trovo in url: ' + browser.current_url
 
 	return browser
 
