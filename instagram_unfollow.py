@@ -43,15 +43,5 @@ browser = genera_browser_fire(headless)
 
 browser 	= login_instagram(browser, username, password)
 returned 	= 0
-count 		= 0
 while returned == 0:
 	returned = unfollow_all_follows(browser, nome_profilo, preserved_follows)
-	count += 1
-
-	# if too many times it exit for errors (returned = 0)
-	# i close and reopen browser to fix them
-	if count > 2:
-		browser.quit()
-		browser = genera_browser_fire(headless)
-		browser = login_instagram(browser, username, password)
-		count = 0
