@@ -131,7 +131,7 @@ def unfollow_visualized_follows(br, preserved_follows):
 	for follow in follows_array:
 		# necessary to limitate ban from instagram
 		if (current_action_c%10 == 0) and (current_action_c != 0): 
-			time.sleep(120)
+			time.sleep(240)
 
 		follows_c = br.find_element_by_xpath('/html/body/span/section/main/div/header/section/ul/li[3]/a/span').text
 		print 'Now ' + follows_c + ' followers'
