@@ -78,6 +78,9 @@ def unfollow_all_follows(br, nome_profilo, preserved_follows):
 
 			br.get(link_profilo)
 
+			if no_follows_tounfollow(br, preserved_follows):
+				return 1
+
 			if zero_follows(br):
 				return 1
 
@@ -128,7 +131,7 @@ def unfollow_visualized_follows(br, preserved_follows):
 	for follow in follows_array:
 		# necessary to limitate ban from instagram
 		if (current_action_c%10 == 0) and (current_action_c != 0): 
-			time.sleep(60)
+			time.sleep(120)
 
 		follows_c = br.find_element_by_xpath('/html/body/span/section/main/div/header/section/ul/li[3]/a/span').text
 		print 'Now ' + follows_c + ' followers'
@@ -158,6 +161,15 @@ def preserve_follow(follow, preserved_follows):
 def follow_name(follow):
 	return follow.text.split("\n")[0]
 
+def no_follows_tounfollow(br, preserved_follows):
+	follows_c = br.find_element_by_xpath('/html/body/span/section/main/div/header/section/ul/li[3]/a/span').text
+	follows_c = int(re.sub(',','',follows_c))
+
+	if follows_c <= len(preserved_follows):
+		return True
+	else:
+		return False
+
 def zero_follows(br):
 	follows_c = br.find_element_by_xpath('/html/body/span/section/main/div/header/section/ul/li[3]/a/span').text
 	if follows_c == '0':
@@ -168,14 +180,18 @@ def zero_follows(br):
 
 def unfollow_follow(follow):
 	# try to unfollow a follow
-
 	# unfollow this!
 	follow.find_elements_by_css_selector("button")[0].click()
-	time.sleep(1)
-	# i'm sure and confirm it!
-	follow.find_element_by_xpath('/html/body/div[4]/div/div/div/div[3]/button[1]').click()
-
-	# print(str(datetime.datetime.now()) + ' unfollow!')
+	print(str(datetime.datetime.now()) + ' unfollow!')
+	
+	try:
+		time.sleep(3)
+		# i'm sure and confirm it!
+		follow.find_element_by_xpath('/html/body/div[4]/div/div/div/div[3]/button[1]').click()
+		return True
+	except NoSuchElementException:
+		return True
+		
 
 def check_if_was_unfollowed(follow):
 	unfollow_done 		= '_0mzm- sqdOP  L3NKy       '
