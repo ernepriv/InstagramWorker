@@ -24,6 +24,14 @@ instagram:
     - thescorpionship
 ```
 
+## CicloCompleto script
+This script allows you to put follow and remove follow continuously, staying within the following maximums expressed in the credentials.yml file and preserving the preserved_follows always expressed in the credentials.yml file
+
+```bash
+python instagram_ciclo_completo.py
+```
+
+
 ## FollowLike script
 This script allows you to follow the latest accounts that have posted a content using the hashtags provided in the credentials.yml file
 ```bash
