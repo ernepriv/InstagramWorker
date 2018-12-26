@@ -72,13 +72,9 @@ def unfollow_all_follows(br, nome_profilo, preserved_follows):
 		link_profilo = 'https://www.instagram.com/' + nome_profilo
 		while True:
 
-			print(str(datetime.datetime.now()) + ' <----- before sleep')
-			time.sleep(1)
-			print(str(datetime.datetime.now()) + ' <----- after sleep')
-
 			br.get(link_profilo)
 
-			if no_follows_tounfollow(br, preserved_follows):
+			if no_follows_to_unfollow(br, preserved_follows):
 				return 1
 
 			if zero_follows(br):
@@ -110,18 +106,38 @@ def scroll_down_for_follows(br):
 		
 		print str(len(now_follows_array)) + ' analyzed...'
 
-def unfollow_visualized_follows(br, preserved_follows):
-	# i must be in main page of profile
-
+def open_following_list(br):
 	button_show_followers = br.find_element_by_xpath('//*[@id="react-root"]/section/main/div/header/section/ul/li[3]/a')
 	button_show_followers.click()
 
+def list_of_following(br):
+	return br.find_elements_by_xpath('/html/body/div[3]/div/div/div[2]/ul/div/li')
+
+def close_following_modal(br):
+	x_button = br.find_element_by_xpath('/html/body/div[3]/div/div/div[1]/div/div[2]/button')
+	x_button.click()
+
+def real_following_count(br):
+	# i must be in main page of profile
+	open_following_list(br)
 	# too fast is bad
+	time.sleep(3)
+	scroll_down_for_follows(br)
+	following_count = list_of_following(br)
+	close_following_modal(br)
+
+	return len(following_count)
+
+def unfollow_visualized_follows(br, preserved_follows):
+	# i must be in main page of profile
+
+	open_following_list(br)
+
 	time.sleep(3)
 
 	scroll_down_for_follows(br)
 
-	follows_array = br.find_elements_by_xpath('/html/body/div[3]/div/div/div[2]/ul/div/li')
+	follows_array = list_of_following(br)
 	print "-------------------------------"
 	print "---------- refresh! -----------"
 	print "-------------------------------"
@@ -129,6 +145,7 @@ def unfollow_visualized_follows(br, preserved_follows):
 	current_action_c = 0
 
 	for follow in follows_array:
+
 		# necessary to limitate ban from instagram
 		if (current_action_c%10 == 0) and (current_action_c != 0): 
 			time.sleep(240)
@@ -136,12 +153,15 @@ def unfollow_visualized_follows(br, preserved_follows):
 		follows_c = br.find_element_by_xpath('/html/body/span/section/main/div/header/section/ul/li[3]/a/span').text
 		print 'Now ' + follows_c + ' followers'
 
-		if not preserve_follow(follow, preserved_follows):
+		
+
+		if not to_preserve(follow, preserved_follows):
 			unfollow_follow(follow)
 			current_action_c += 1
 			time.sleep(7)
 		else:
-			print name_from_follow(follow) + ' preserved!'
+			#print name_from_follow(follow) + ' preserved!'
+			print '---'
 			if (current_action_c%10 == 0):
 				# so i haven't to wait if stuck on current_action_c%10
 				current_action_c += 1
@@ -151,7 +171,7 @@ def unfollow_visualized_follows(br, preserved_follows):
 def name_from_follow(follow):
 	return follow.text.split("\n")[0]
 
-def preserve_follow(follow, preserved_follows):
+def to_preserve(follow, preserved_follows):
 	if any(follow_name(follow) in s for s in preserved_follows):
 		return True
 	else:
@@ -161,10 +181,8 @@ def preserve_follow(follow, preserved_follows):
 def follow_name(follow):
 	return follow.text.split("\n")[0]
 
-def no_follows_tounfollow(br, preserved_follows):
-	follows_c = br.find_element_by_xpath('/html/body/span/section/main/div/header/section/ul/li[3]/a/span').text
-	follows_c = int(re.sub(',','',follows_c))
-
+def no_follows_to_unfollow(br, preserved_follows):
+	follows_c = real_following_count(br)
 	if follows_c <= len(preserved_follows):
 		return True
 	else:
