@@ -266,7 +266,7 @@ def follow_and_like_some_hashtag(browser, username, password, profile_name, hash
 	# i must be logged before do this!
 	after_follow_wait_time 	= 5
 	after_click_wait_time 	= 5
-	big_pause = 30
+	big_pause = 480
 
 	while True:
 		for hashtag in hash_to_likes:
