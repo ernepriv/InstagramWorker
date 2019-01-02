@@ -91,10 +91,10 @@ def scroll_down_for_follows(br):
 
 	# focusing on follows modal
 	modal = br.find_element_by_xpath('/html/body/div[3]/div/div/div[2]')
-										
+
 	before_follows_array 	= []
 	now_follows_array 		= br.find_elements_by_xpath('/html/body/div[3]/div/div/div[2]/ul/div/li')
-	
+
 	while now_follows_array != before_follows_array:
 		# scroll down
 		for x in range(0, 20):
@@ -103,7 +103,7 @@ def scroll_down_for_follows(br):
 
 		before_follows_array 	= now_follows_array
 		now_follows_array 		= br.find_elements_by_xpath('/html/body/div[3]/div/div/div[2]/ul/div/li')
-		
+
 		print str(len(now_follows_array)) + ' analyzed...'
 
 def open_following_list(br):
@@ -147,13 +147,13 @@ def unfollow_visualized_follows(br, preserved_follows):
 	for follow in follows_array:
 
 		# necessary to limitate ban from instagram
-		if (current_action_c%10 == 0) and (current_action_c != 0): 
-			time.sleep(240)
+		if (current_action_c%10 == 0) and (current_action_c != 0):
+			time.sleep(500)
 
 		follows_c = br.find_element_by_xpath('/html/body/span/section/main/div/header/section/ul/li[3]/a/span').text
 		print 'Now ' + follows_c + ' followers'
 
-		
+
 
 		if not to_preserve(follow, preserved_follows):
 			unfollow_follow(follow)
@@ -201,7 +201,7 @@ def unfollow_follow(follow):
 	# unfollow this!
 	follow.find_elements_by_css_selector("button")[0].click()
 	print(str(datetime.datetime.now()) + ' unfollow!')
-	
+
 	try:
 		time.sleep(3)
 		# i'm sure and confirm it!
@@ -209,7 +209,7 @@ def unfollow_follow(follow):
 		return True
 	except NoSuchElementException:
 		return True
-		
+
 
 def check_if_was_unfollowed(follow):
 	unfollow_done 		= '_0mzm- sqdOP  L3NKy       '
@@ -266,7 +266,7 @@ def follow_and_like_some_hashtag(browser, username, password, profile_name, hash
 	# i must be logged before do this!
 	after_follow_wait_time 	= 5
 	after_click_wait_time 	= 5
-	big_pause = 480
+	big_pause = 800
 
 	while True:
 		for hashtag in hash_to_likes:
