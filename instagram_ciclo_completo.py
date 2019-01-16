@@ -34,15 +34,18 @@ browser = genera_browser_fire(headless)
 browser = login_instagram(browser, username, password)
 
 while True:
-	# follow & like
-	returned 	= 0
-	while returned == 0:
-		# to randomize hashtag order
-		random.shuffle(hashtags)
-		returned = follow_and_like_some_hashtag(browser, username, password, nome_profilo, hashtags, max_following)
+	try:
+		# follow & like
+		returned 	= 0
+		while returned == 0:
+			# to randomize hashtag order
+			random.shuffle(hashtags)
+			returned = follow_and_like_some_hashtag(browser, username, password, nome_profilo, hashtags, max_following)
 
-	# unfollow
-	returned 	= 0
-	while returned == 0:
-		returned = unfollow_all_follows(browser, nome_profilo, preserved_follows)
-
+		# unfollow
+		returned 	= 0
+		while returned == 0:
+			returned = unfollow_all_follows(browser, nome_profilo, preserved_follows)
+	
+	except WebDriverException:
+		print "rescue WebDriverException"
